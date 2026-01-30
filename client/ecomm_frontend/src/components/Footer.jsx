@@ -40,7 +40,7 @@ export default function Footer() {
             Contact
           </h3>
           <p className="text-sm">support@shopx.com</p>
-          <p className="text-sm">+91 98765 43210</p>
+          <p className="text-sm">+91 8805238896</p>
         </div>
 
       </div>

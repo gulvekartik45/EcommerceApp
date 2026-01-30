@@ -10,7 +10,7 @@ export const userRegister = async (req, res) => {
     if (!firstName || !lastName || !email || !password || !confirmPassword) {
       return res.status(400).json({ message: "All fields are required" });
     }
-
+ 
     if (password !== confirmPassword) {
       return res.status(400).json({ message: "Passwords do not match" });
     }
@@ -27,7 +27,7 @@ export const userRegister = async (req, res) => {
       lastName,
       email,
       password: hashedPassword,
-      role: "user",
+      role: role || "user",
     });
 
     res.status(201).json({ message: "User registered successfully" });

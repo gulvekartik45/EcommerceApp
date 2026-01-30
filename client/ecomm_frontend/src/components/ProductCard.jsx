@@ -4,7 +4,7 @@ export default function ProductCard({ product }) {
   return (
     <div className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
       
-      <Link to={`/product/${product.id}`}>
+      <Link to={`/product/${product._id}`}>
         <div className="h-48 bg-gray-100 flex items-center justify-center">
           <span className="text-gray-400">Product Image</span>
         </div>
@@ -20,7 +20,7 @@ export default function ProductCard({ product }) {
         </p>
 
         <Link
-          to={`/product/${product.id}`}
+          to={`/product/${product._id}`}
           className="block text-center bg-orange-500 text-white py-2 rounded-lg hover:bg-orange-600 transition"
         >
           View

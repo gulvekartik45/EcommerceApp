@@ -10,6 +10,7 @@ export const Register = async (data) => {
 
 export const Login = async (data) => {
   const res = await axios.post(`${backendUrl}/api/auth/login`, data);
+  localStorage.setItem("token", res.data.token);
   return res.data;
 };
 
@@ -25,11 +26,30 @@ export const addProduct = async (data) => {
   const res = await axios.post(
     `${backendUrl}/api/products`,
     data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+
+  return res.data;
+};
+
+export const updateProduct = async (id, data) => {
+  const token = localStorage.getItem("token");
+
+  const res = await axios.put(
+    `${backendUrl}/api/products/${id}`,
+    data,
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+
+  return res.data;
+};
+
+export const deleteProduct = async (id) => {
+  const token = localStorage.getItem("token");
+
+  const res = await axios.delete(
+    `${backendUrl}/api/products/${id}`,
+    { headers: { Authorization: `Bearer ${token}` } }
   );
 
   return res.data;

@@ -1,21 +1,37 @@
 import { useParams, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getProducts } from "../api/apis";
 import { useCart } from "../context/CartContext";
 
 export default function ProductDetails() {
   const { id } = useParams();
   const { addToCart } = useCart();
 
-  const product = {
-    id,
-    name: `Product ${id}`,
-    price: 1999,
-  };
+  const [product, setProduct] = useState(null);
+
+  useEffect(() => {
+    getProducts().then((data) => {
+      const found = data.find((p) => p._id === id);
+      setProduct(found);
+    });
+  }, [id]);
+
+  if (!product) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gray-50 min-h-screen">
       <div className="max-w-6xl mx-auto px-6 py-12">
 
-        <Link to="/products" className="text-orange-500 font-medium mb-6 inline-block">
+        <Link
+          to="/products"
+          className="text-orange-500 font-medium mb-6 inline-block"
+        >
           ← Back to Products
         </Link>
 
@@ -30,7 +46,17 @@ export default function ProductDetails() {
               {product.name}
             </h1>
 
-            <p className="text-2xl mb-6">₹{product.price}</p>
+            <p className="text-xl text-gray-600 mb-2">
+              {product.category}
+            </p>
+
+            <p className="text-2xl mb-6">
+              ₹{product.price}
+            </p>
+
+            <p className="text-gray-700 mb-6">
+              {product.description}
+            </p>
 
             <button
               onClick={() => addToCart(product)}

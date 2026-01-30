@@ -1,29 +1,28 @@
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { getProducts } from "../api/apis";
 import ProductCard from "../components/ProductCard";
 
-const products = [
-  { id: 1, name: "Wireless Headphones", price: 999, category: "electronics" },
-  { id: 2, name: "Smart Watch", price: 1499, category: "electronics" },
-  { id: 3, name: "Bluetooth Speaker", price: 1999, category: "electronics" },
-  { id: 4, name: "T-Shirt", price: 799, category: "fashion" },
-  { id: 5, name: "Running Shoes", price: 2499, category: "shoes" },
-  { id: 6, name: "Leather Watch", price: 2999, category: "accessories" },
-];
-
 export default function Products() {
+  const [products, setProducts] = useState([]);
   const [searchParams] = useSearchParams();
+
   const selectedCategory = searchParams.get("category");
+
+  useEffect(() => {
+    getProducts().then((data) => setProducts(data));
+  }, []);
 
   const filteredProducts = selectedCategory
     ? products.filter(
-        (product) => product.category === selectedCategory
+        (product) =>
+          product.category?.toLowerCase() === selectedCategory.toLowerCase()
       )
     : products;
 
   return (
     <div className="bg-gray-50 min-h-screen">
       <div className="max-w-7xl mx-auto px-6 py-10">
-
         <h2 className="text-3xl font-bold mb-8 capitalize">
           {selectedCategory
             ? `${selectedCategory} Products`
@@ -38,13 +37,12 @@ export default function Products() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {filteredProducts.map((product) => (
               <ProductCard
-                key={product.id}
+                key={product._id}
                 product={product}
               />
             ))}
           </div>
         )}
-
       </div>
     </div>
   );
