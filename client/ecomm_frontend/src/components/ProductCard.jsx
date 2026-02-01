@@ -5,8 +5,12 @@ export default function ProductCard({ product }) {
     <div className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
       
       <Link to={`/product/${product._id}`}>
-        <div className="h-48 bg-gray-100 flex items-center justify-center">
-          <span className="text-gray-400">Product Image</span>
+        <div className="h-56 w-full bg-gray-100 flex items-center justify-center p-4">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="max-h-full max-w-full object-contain"
+          />
         </div>
       </Link>
 

@@ -1,22 +1,17 @@
-import { Router } from 'express';
-import { getUserDetails , getAllUsers, updateUser, deleteUser } from '../controller/userController.js'
-
+import { Router } from "express";
+import authentication, { authorization } from "../middleware/authentication.js";
+import {
+  getUserDetails,
+  getAllUsers,
+  updateUser,
+  deleteUser,
+} from "../controller/userController.js";
 
 const userRouter = Router();
 
-
-
-
-userRouter.get('/' , (req,res)=>{
-    res.send("User route is working");
-})
-
-userRouter.get('/user/:id', getUserDetails);
-
-userRouter.get('/users', getAllUsers);
-
-userRouter.put('/user/:id', updateUser);
-
-userRouter.delete('/user/:id', deleteUser );
+userRouter.get("/", authentication, authorization, getAllUsers);
+userRouter.get("/:id", authentication, authorization, getUserDetails);
+userRouter.put("/:id", authentication, authorization, updateUser);
+userRouter.delete("/:id", authentication, authorization, deleteUser);
 
 export default userRouter;

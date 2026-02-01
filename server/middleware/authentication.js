@@ -25,4 +25,5 @@ const authorization = (req, res, next) => {
   next();
 };
 
-export { authentication, authorization };
+export default authentication;
+export { authorization };

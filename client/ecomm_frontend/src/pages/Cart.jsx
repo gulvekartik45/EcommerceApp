@@ -1,78 +1,111 @@
-import { useCart } from "../context/CartContext";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-export default function Cart() {
-  const { cartItems } = useCart();
+const Cart = () => {
+  const [cart, setCart] = useState([]);
 
-  const total = cartItems.reduce(
-    (sum, item) => sum + Number(item.price),
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem("cart")) || [];
+    setCart(data);
+  }, []);
+
+  const updateCart = (updated) => {
+    setCart(updated);
+    localStorage.setItem("cart", JSON.stringify(updated));
+  };
+
+  const increaseQty = (id) => {
+    const updated = cart.map(item =>
+      item._id === id ? { ...item, qty: item.qty + 1 } : item
+    );
+    updateCart(updated);
+  };
+
+  const decreaseQty = (id) => {
+    const updated = cart.map(item =>
+      item._id === id && item.qty > 1
+        ? { ...item, qty: item.qty - 1 }
+        : item
+    );
+    updateCart(updated);
+  };
+
+  const removeItem = (id) => {
+    const updated = cart.filter(item => item._id !== id);
+    updateCart(updated);
+  };
+
+  const totalPrice = cart.reduce(
+    (total, item) => total + item.price * item.qty,
     0
   );
 
+  if (cart.length === 0) {
+    return <p className="text-center mt-20">Cart is empty</p>;
+  }
+
   return (
-    <div className="bg-gray-50 min-h-screen">
-      <div className="max-w-6xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div className="max-w-5xl mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-6">Your Cart</h1>
 
-        <div className="md:col-span-2 space-y-4">
-          <h2 className="text-2xl font-bold mb-4">
-            Shopping Cart
-          </h2>
+      {cart.map(item => (
+        <div
+          key={item._id}
+          className="flex items-center justify-between border-b py-4"
+        >
+          <div className="flex items-center gap-4">
+            <img
+              src={item.image}
+              className="w-20 h-20 object-contain bg-gray-100 rounded"
+            />
 
-          {cartItems.length === 0 ? (
-            <p className="text-gray-500">
-              Your cart is empty
-            </p>
-          ) : (
-            cartItems.map((item) => (
-              <div
-                key={item._id}
-                className="bg-white p-4 rounded-lg shadow flex justify-between items-center"
-              >
-                <div>
-                  <p className="font-semibold">
-                    {item.name}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    {item.category}
-                  </p>
-                </div>
-
-                <p className="font-semibold">
-                  ₹{item.price}
-                </p>
-              </div>
-            ))
-          )}
-
-          <Link
-            to="/products"
-            className="inline-block mt-4 text-orange-500 font-medium"
-          >
-            ← Continue Shopping
-          </Link>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow h-fit">
-          <h3 className="text-lg font-semibold mb-4">
-            Order Summary
-          </h3>
-
-          <div className="flex justify-between mb-4">
-            <span>Total</span>
-            <span className="font-bold">
-              ₹{total}
-            </span>
+            <div>
+              <h2 className="font-semibold">{item.name}</h2>
+              <p>₹{item.price}</p>
+            </div>
           </div>
 
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => decreaseQty(item._id)}
+              className="px-3 py-1 bg-gray-200"
+            >
+              −
+            </button>
+
+            <span>{item.qty}</span>
+
+            <button
+              onClick={() => increaseQty(item._id)}
+              className="px-3 py-1 bg-gray-200"
+            >
+              +
+            </button>
+          </div>
+
+          <p className="font-semibold">
+            ₹{item.price * item.qty}
+          </p>
+
           <button
-            className="w-full bg-orange-500 text-white py-3 rounded-lg hover:bg-orange-600 transition"
-            disabled={cartItems.length === 0}
+            onClick={() => removeItem(item._id)}
+            className="text-red-500"
           >
-            Checkout
+            Remove
           </button>
         </div>
+      ))}
 
+      <div className="text-right mt-6">
+        <h2 className="text-xl font-bold">
+          Total: ₹{totalPrice}
+        </h2>
+
+        <button className="mt-4 bg-orange-500 text-white px-6 py-2 rounded">
+          Checkout
+        </button>
       </div>
     </div>
   );
-}
+};
+
+export default Cart;
