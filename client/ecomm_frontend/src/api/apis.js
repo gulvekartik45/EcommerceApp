@@ -20,7 +20,6 @@ export const getProducts = async () => {
   return res.data;
 };
 
-/* ✅ SINGLE PRODUCT (THIS WAS MISSING) */
 export const getProductById = async (id) => {
   const res = await axios.get(`${backendUrl}/api/products/${id}`);
   return res.data;
@@ -28,49 +27,49 @@ export const getProductById = async (id) => {
 
 export const addProduct = async (data) => {
   const token = localStorage.getItem("token");
-
-  const res = await axios.post(
-    `${backendUrl}/api/products`,
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    }
-  );
-
+  const res = await axios.post(`${backendUrl}/api/products`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
   return res.data;
 };
 
 export const updateProduct = async (id, data) => {
   const token = localStorage.getItem("token");
-
-  const res = await axios.put(
-    `${backendUrl}/api/products/${id}`,
-    data,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    }
-  );
-
+  const res = await axios.put(`${backendUrl}/api/products/${id}`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
   return res.data;
 };
 
 export const deleteProduct = async (id) => {
   const token = localStorage.getItem("token");
+  const res = await axios.delete(`${backendUrl}/api/products/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.data;
+};
 
-  const res = await axios.delete(
-    `${backendUrl}/api/products/${id}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
+/* USERS (ADMIN) */
+export const getUsers = async () => {
+  const token = localStorage.getItem("token");
+  const res = await axios.get(`${backendUrl}/api/users`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.data;
+};
 
+export const updateUser = async (id, data) => {
+  const token = localStorage.getItem("token");
+  const res = await axios.put(`${backendUrl}/api/users/${id}`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.data;
+};
+
+export const deleteUser = async (id) => {
+  const token = localStorage.getItem("token");
+  const res = await axios.delete(`${backendUrl}/api/users/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
   return res.data;
 };
