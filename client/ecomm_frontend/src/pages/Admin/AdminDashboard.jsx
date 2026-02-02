@@ -16,7 +16,7 @@ import {
 const AdminDashboard = () => {
   const navigate = useNavigate();
 
-  /* ================= AUTH ================= */
+  
   const [checkingAuth, setCheckingAuth] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -41,7 +41,7 @@ const AdminDashboard = () => {
     }
   }, [navigate]);
 
-  /* ================= PRODUCTS ================= */
+ 
   const [products, setProducts] = useState([]);
   const [editProductId, setEditProductId] = useState(null);
   const [image, setImage] = useState(null);
@@ -59,7 +59,7 @@ const AdminDashboard = () => {
     setProducts(Array.isArray(data) ? data : []);
   };
 
-  /* ================= USERS ================= */
+  
   const [users, setUsers] = useState([]);
   const [editUserId, setEditUserId] = useState(null);
 
@@ -86,7 +86,7 @@ const AdminDashboard = () => {
     }
   }, [isAdmin]);
 
-  /* ================= IMAGE COMPRESSION ================= */
+ 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -100,7 +100,7 @@ const AdminDashboard = () => {
     setImage(compressed);
   };
 
-  /* ================= PRODUCT HANDLERS ================= */
+ 
   const handleProductChange = (e) =>
     setProductForm({ ...productForm, [e.target.name]: e.target.value });
 
@@ -145,7 +145,7 @@ const AdminDashboard = () => {
     fetchProducts();
   };
 
-  /* ================= USER HANDLERS ================= */
+
   const handleUserChange = (e) =>
     setUserForm({ ...userForm, [e.target.name]: e.target.value });
 
@@ -171,7 +171,7 @@ const AdminDashboard = () => {
     fetchUsers();
   };
 
-  /* ================= LOADING ================= */
+
   if (checkingAuth) {
     return (
       <div className="min-h-screen flex items-center justify-center">

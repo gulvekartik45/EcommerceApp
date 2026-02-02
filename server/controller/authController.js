@@ -10,7 +10,7 @@ export const userRegister = async (req, res) => {
     if (!firstName || !lastName || !email || !password || !confirmPassword) {
       return res.status(400).json({ message: "All fields are required" });
     }
- 
+
     if (password !== confirmPassword) {
       return res.status(400).json({ message: "Passwords do not match" });
     }
@@ -27,12 +27,12 @@ export const userRegister = async (req, res) => {
       lastName,
       email,
       password: hashedPassword,
-      role: role || "user",
+      role: "user", 
     });
 
     res.status(201).json({ message: "User registered successfully" });
   } catch (err) {
-    console.error(err);
+    console.error("REGISTER ERROR:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -68,7 +68,7 @@ export const userLogin = async (req, res) => {
       role: user.role,
     });
   } catch (err) {
-    console.error(err);
+    console.error("LOGIN ERROR:", err);
     res.status(500).json({ message: "Server error" });
   }
 };

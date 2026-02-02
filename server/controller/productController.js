@@ -1,6 +1,5 @@
 import Product from "../model/productModel.js";
 
-/* CREATE PRODUCT */
 export const createProduct = async (req, res) => {
   try {
     const product = await Product.create({
@@ -17,7 +16,7 @@ export const createProduct = async (req, res) => {
   }
 };
 
-/* GET ALL PRODUCTS */
+
 export const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find();
@@ -27,7 +26,7 @@ export const getAllProducts = async (req, res) => {
   }
 };
 
-/* ✅ GET PRODUCT BY ID */
+
 export const getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -41,7 +40,7 @@ export const getProductById = async (req, res) => {
   }
 };
 
-/* UPDATE PRODUCT */
+
 export const updateProduct = async (req, res) => {
   try {
     const update = { ...req.body };
@@ -65,7 +64,7 @@ export const updateProduct = async (req, res) => {
   }
 };
 
-/* DELETE PRODUCT */
+
 export const deleteProduct = async (req, res) => {
   await Product.findByIdAndDelete(req.params.id);
   res.json({ message: "Deleted" });

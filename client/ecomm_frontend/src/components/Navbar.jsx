@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
-
+import { jwtDecode } from "jwt-decode"; // ✅ CORRECT for v4+
 
 export default function Navbar() {
   const [search, setSearch] = useState("");
@@ -49,7 +48,7 @@ export default function Navbar() {
           ShopX
         </Link>
 
-        {/* SEARCH BAR */}
+        {/* SEARCH */}
         <form
           onSubmit={handleSearch}
           className="hidden md:flex items-center w-1/2"
@@ -66,9 +65,8 @@ export default function Navbar() {
           </button>
         </form>
 
-        {/* NAV LINKS */}
+        {/* LINKS */}
         <div className="flex items-center gap-6">
-
           <Link to="/products" className="hover:text-orange-500">
             Products
           </Link>
@@ -77,17 +75,13 @@ export default function Navbar() {
             Cart
           </Link>
 
-          {/* ✅ ADMIN DASHBOARD (ONLY ADMIN) */}
+          {/* ADMIN ONLY */}
           {userRole === "admin" && (
-            <Link
-              to="/admin"
-              className="text-orange-500 font-semibold"
-            >
+            <Link to="/admin" className="text-orange-500 font-semibold">
               Admin Dashboard
             </Link>
           )}
 
-          {/* LOGIN / LOGOUT */}
           {!userRole ? (
             <Link to="/login" className="hover:text-orange-500">
               Login
@@ -100,7 +94,6 @@ export default function Navbar() {
               Logout
             </button>
           )}
-
         </div>
       </div>
     </nav>
