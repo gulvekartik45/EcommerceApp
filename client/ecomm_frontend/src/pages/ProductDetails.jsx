@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 
-const backendUrl = "http://localhost:3000";
+const backendUrl = "https://ecommerceapp-2tsr.onrender.com";
 
 const ProductDetails = () => {
   const { id } = useParams();
