@@ -150,7 +150,7 @@ const AdminDashboard = () => {
     setUserForm({ ...userForm, [e.target.name]: e.target.value });
 
   const handleEditUser = (u) => {
-    setEditUserId(u._id);
+    setEditUserId(u.id);
     setUserForm({
       firstName: u.firstName,
       lastName: u.lastName,
