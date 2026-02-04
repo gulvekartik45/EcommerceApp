@@ -96,3 +96,11 @@ export const getMyOrders = async () => {
   });
   return res.data;
 };
+
+export const getCurrentUserProfile = async () => {
+  const token = localStorage.getItem("token");
+  const res = await axios.get(`${backendUrl}/api/users/profile`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.data;
+};

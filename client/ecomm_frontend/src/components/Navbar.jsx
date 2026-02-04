@@ -1,10 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode"; // ✅ CORRECT for v4+
+import { getCurrentUserProfile } from "../api/apis";
 
 export default function Navbar() {
   const [search, setSearch] = useState("");
   const [userRole, setUserRole] = useState(null);
+  const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
 
   /* ================= CHECK LOGIN + ROLE ================= */
@@ -12,15 +14,25 @@ export default function Navbar() {
     const token = localStorage.getItem("token");
     if (!token) {
       setUserRole(null);
+      setUserData(null);
       return;
     }
 
     try {
       const decoded = jwtDecode(token);
       setUserRole(decoded.role);
+      
+      // Fetch user profile data
+      getCurrentUserProfile()
+        .then(setUserData)
+        .catch(err => {
+          console.error("Failed to fetch user profile:", err);
+          setUserData(null);
+        });
     } catch (err) {
       console.error("Invalid token");
       setUserRole(null);
+      setUserData(null);
     }
   }, []);
 
@@ -35,6 +47,8 @@ export default function Navbar() {
   /* ================= LOGOUT ================= */
   const handleLogout = () => {
     localStorage.removeItem("token");
+    setUserRole(null);
+    setUserData(null);
     navigate("/login");
     window.location.reload();
   };
@@ -74,6 +88,21 @@ export default function Navbar() {
           <Link to="/cart" className="hover:text-orange-500">
             Cart
           </Link>
+
+          {/* USER LINKS - Show when logged in */}
+          {userRole && (
+            <>
+              <Link to="/orders" className="hover:text-orange-500">
+                My Orders
+              </Link>
+              
+              {userData && (
+                <span className="text-gray-600 font-medium">
+                  Hello, {userData.firstName}
+                </span>
+              )}
+            </>
+          )}
 
           {/* ADMIN ONLY */}
           {userRole === "admin" && (
