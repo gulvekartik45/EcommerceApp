@@ -88,3 +88,11 @@ export const placeOrder = async (orderData) => {
   });
   return res.data;
 };
+
+export const getMyOrders = async () => {
+  const token = localStorage.getItem("token");
+  const res = await axios.get(`${backendUrl}/api/orders/my-orders`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.data;
+};
