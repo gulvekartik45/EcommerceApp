@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { placeOrder } from "../api/apis";
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
@@ -43,19 +42,9 @@ const Cart = () => {
     0
   );
 
-  const handleCheckout = async () => {
-    try {
-      const order = {
-        items: cart,
-        totalAmount: totalPrice,
-      };
-
-      await placeOrder(order);
-      localStorage.removeItem("cart");
-      navigate("/orders");
-    } catch (err) {
-      alert("Order failed");
-    }
+  const handleCheckout = () => {
+    // Navigate to checkout page instead of placing order directly
+    navigate("/checkout");
   };
 
   if (cart.length === 0) {
