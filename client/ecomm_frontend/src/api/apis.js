@@ -28,7 +28,10 @@ export const getProductById = async (id) => {
 export const addProduct = async (data) => {
   const token = localStorage.getItem("token");
   const res = await axios.post(`${backendUrl}/api/products`, data, {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
   });
   return res.data;
 };
@@ -36,7 +39,10 @@ export const addProduct = async (data) => {
 export const updateProduct = async (id, data) => {
   const token = localStorage.getItem("token");
   const res = await axios.put(`${backendUrl}/api/products/${id}`, data, {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
   });
   return res.data;
 };
@@ -69,6 +75,15 @@ export const updateUser = async (id, data) => {
 export const deleteUser = async (id) => {
   const token = localStorage.getItem("token");
   const res = await axios.delete(`${backendUrl}/api/users/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return res.data;
+};
+
+/* ================= ORDERS ================= */
+export const placeOrder = async (orderData) => {
+  const token = localStorage.getItem("token");
+  const res = await axios.post(`${backendUrl}/api/orders`, orderData, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return res.data;
