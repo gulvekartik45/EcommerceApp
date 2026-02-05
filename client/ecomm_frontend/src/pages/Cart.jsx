@@ -48,7 +48,22 @@ const Cart = () => {
   };
 
   if (cart.length === 0) {
-    return <p className="text-center mt-20">Cart is empty</p>;
+    return (
+      <div className="max-w-5xl mx-auto p-6 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="mb-6">
+            <svg className="w-24 h-24 mx-auto text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2v-8a2 2 0 012-2z" />
+            </svg>
+          </div>
+          <h1 className="text-3xl font-bold text-gray-800 mb-3">Your Cart is Empty</h1>
+          <p className="text-gray-600 text-lg mb-8">Add items to your cart to get started!</p>
+          <a href="/products" className="inline-block bg-orange-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-orange-600 transition">
+            Continue Shopping
+          </a>
+        </div>
+      </div>
+    );
   }
 
   return (
