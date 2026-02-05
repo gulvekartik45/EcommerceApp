@@ -25,9 +25,20 @@ export default function Orders() {
 
   if (orders.length === 0) {
     return (
-      <div className="max-w-5xl mx-auto p-6">
-        <h1 className="text-2xl font-bold mb-6">My Orders</h1>
-        <p className="text-gray-600">You haven't placed any orders yet.</p>
+      <div className="max-w-5xl mx-auto p-6 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="mb-6">
+            <svg className="w-24 h-24 mx-auto text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2v-8a2 2 0 012-2z" />
+            </svg>
+          </div>
+          <h1 className="text-3xl font-bold text-gray-800 mb-3">Your Shopping Cart is Empty</h1>
+          <p className="text-gray-600 text-lg mb-8">You haven't placed any orders yet.</p>
+          <p className="text-gray-500 mb-6">Start shopping now and discover amazing products!</p>
+          <a href="/products" className="inline-block bg-orange-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-orange-600 transition">
+            Shop Now
+          </a>
+        </div>
       </div>
     );
   }
