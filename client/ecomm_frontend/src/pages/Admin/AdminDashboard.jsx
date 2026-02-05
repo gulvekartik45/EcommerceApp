@@ -161,14 +161,31 @@ const AdminDashboard = () => {
 
   const handleUserSubmit = async (e) => {
     e.preventDefault();
-    await updateUser(editUserId, userForm);
-    setEditUserId(null);
-    fetchUsers();
+    try {
+      if (!userForm.firstName || !userForm.email) {
+        alert("Please fill in required fields");
+        return;
+      }
+      await updateUser(editUserId, userForm);
+      alert("User updated successfully!");
+      setEditUserId(null);
+      setUserForm({ firstName: "", lastName: "", email: "", role: "" });
+      fetchUsers();
+    } catch (err) {
+      alert("Error updating user: " + (err.response?.data?.message || err.message));
+    }
   };
 
   const handleDeleteUser = async (id) => {
-    await removeUser(id);
-    fetchUsers();
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      try {
+        await removeUser(id);
+        alert("User deleted successfully!");
+        fetchUsers();
+      } catch (err) {
+        alert("Error deleting user: " + (err.response?.data?.message || err.message));
+      }
+    }
   };
 
 
@@ -228,6 +245,34 @@ const AdminDashboard = () => {
       {/* ================= USERS ================= */}
       <div className="bg-white p-6 rounded shadow max-w-6xl mx-auto">
         <h2 className="text-2xl font-bold mb-4">Users</h2>
+
+        {editUserId && (
+          <form onSubmit={handleUserSubmit} className="grid grid-cols-4 gap-3 mb-6 bg-blue-50 p-4 rounded">
+            <input name="firstName" value={userForm.firstName} onChange={handleUserChange} className="border p-2" placeholder="First Name" />
+            <input name="lastName" value={userForm.lastName} onChange={handleUserChange} className="border p-2" placeholder="Last Name" />
+            <input name="email" value={userForm.email} onChange={handleUserChange} className="border p-2" placeholder="Email" />
+            
+            <select name="role" value={userForm.role} onChange={handleUserChange} className="border p-2">
+              <option value="">Select Role</option>
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select>
+
+            <button type="submit" className="col-span-2 bg-green-500 text-white py-2 rounded">
+              Update User
+            </button>
+            <button 
+              type="button"
+              onClick={() => {
+                setEditUserId(null);
+                setUserForm({ firstName: "", lastName: "", email: "", role: "" });
+              }}
+              className="col-span-2 bg-gray-500 text-white py-2 rounded"
+            >
+              Cancel
+            </button>
+          </form>
+        )}
 
         <table className="w-full border">
           <thead className="bg-gray-200">
